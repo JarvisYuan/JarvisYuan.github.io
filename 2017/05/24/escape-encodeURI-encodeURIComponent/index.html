@@ -6,14 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2017 | Hexo</title>
+  <title>escape, encodeURI 与 encodeURIComponent | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/archives/2017/index.html">
+  <meta name="description" content="如果你要操作 URL，你就忘掉 escape 吧，这是个不相关的函数。接下来 encodeURI 和 encodeURIComponent 两个名字已经说得很清楚了。encodeURI 是用来处理整个 URL 的，它应该接受 URL 的 protocol, host, port 等部分，只对 path 和 query 进行编码；而 encodeURIComponent 是用来编码你准备用作 qu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="escape, encodeURI 与 encodeURIComponent">
+<meta property="og:url" content="http://yoursite.com/2017/05/24/escape-encodeURI-encodeURIComponent/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="如果你要操作 URL，你就忘掉 escape 吧，这是个不相关的函数。接下来 encodeURI 和 encodeURIComponent 两个名字已经说得很清楚了。encodeURI 是用来处理整个 URL 的，它应该接受 URL 的 protocol, host, port 等部分，只对 path 和 query 进行编码；而 encodeURIComponent 是用来编码你准备用作 qu">
+<meta property="og:updated_time" content="2017-05-24T11:54:37.950Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
+<meta name="twitter:title" content="escape, encodeURI 与 encodeURIComponent">
+<meta name="twitter:description" content="如果你要操作 URL，你就忘掉 escape 吧，这是个不相关的函数。接下来 encodeURI 和 encodeURIComponent 两个名字已经说得很清楚了。encodeURI 是用来处理整个 URL 的，它应该接受 URL 的 protocol, host, port 等部分，只对 path 和 query 进行编码；而 encodeURIComponent 是用来编码你准备用作 qu">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -149,76 +153,158 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-escape-encodeURI-encodeURIComponent" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      escape, encodeURI 与 encodeURIComponent
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/05/24/escape-encodeURI-encodeURIComponent/" class="archive-article-date">
+
+        
+        <a href="/2017/05/24/escape-encodeURI-encodeURIComponent/" class="archive-article-date">
   	<time datetime="2017-05-24T11:23:45.877Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-24</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/05/24/escape-encodeURI-encodeURIComponent/">escape, encodeURI 与 encodeURIComponent</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>如果你要操作 URL，你就忘掉 escape 吧，这是个不相关的函数。接下来 encodeURI 和 encodeURIComponent 两个名字已经说得很清楚了。encodeURI 是用来处理整个 URL 的，它应该接受 URL 的 protocol, host, port 等部分，只对 path 和 query 进行编码；而 encodeURIComponent 是用来编码你准备用作 query 部分的字符串的。</p>
+</blockquote>
+<h3 id="escape和它们不是同一类"><a href="#escape和它们不是同一类" class="headerlink" title="escape和它们不是同一类"></a>escape和它们不是同一类</h3><p>简单来说，escape是对字符串 (string) 进行编码，作用是让它们在所有电脑上可读，<strong>不会</strong>编码 <code>ASCII字母 数字 @ * / +</code>。<br>而另外两种是对URL进行编码，编码之后的效果是 <code>%XX</code> 或者 <code>%uXXXX</code> 这种形式。<br>最关键的是，当你需要对URL编码时，请忘记这个方法，这个方法是针对字符串使用的，不适用于URL。</p>
+<h3 id="最常用的encodeURI和encodeURIComponent"><a href="#最常用的encodeURI和encodeURIComponent" class="headerlink" title="最常用的encodeURI和encodeURIComponent"></a>最常用的encodeURI和encodeURIComponent</h3><p>对URL编码是常见的事，所以这两个方法应该是实际中要特别注意的。<br>它们都是编码URL，唯一区别就是编码的字符范围，其中：</p>
+<ul>
+<li>encodeURI方法<strong>不会</strong>对下列字符编码 <code>ASCII字母 数字 ~ ! @ # $ &amp; * ( ) = : / , ; ? + &#39;</code></li>
+<li>encodeURIComponent方法<strong>不会</strong>对下列字符编码 <code>ASCII字母 数字 ~ ! * ( ) &#39;</code></li>
+</ul>
+<p>所以encodeURIComponent比encodeURI编码的范围更大。<br>实际例子来说，encodeURIComponent会把 <code>http://</code> 编码成 <code>http%3A%2F%2F</code>，而encodeURI却不会。</p>
+<h3 id="最重要的，什么场合应该用什么方法"><a href="#最重要的，什么场合应该用什么方法" class="headerlink" title="最重要的，什么场合应该用什么方法"></a>最重要的，什么场合应该用什么方法</h3><ul>
+<li>如果只是编码字符串，不和URL有半毛钱关系，那么用escape。</li>
+<li>如果你需要编码整个URL，然后需要使用这个URL，那么用encodeURI。</li>
+</ul>
+<p>比如 <code>encodeURI(&quot;http://www.cnblogs.com/season-huang/some other thing&quot;);</code><br>编码后会变为 <code>&quot;http://www.cnblogs.com/season-huang/some%20other%20thing&quot;;</code><br>其中，空格被编码成了<code>%20</code>，但是如果用了encodeURIComponent，那么结果变为：<br><code>&quot;http%3A%2F%2Fwww.cnblogs.com%2Fseason-huang%2Fsome%20other%20thing&quot;</code><br>看到区别了吗，连 “/“ 都被编码了，整个URL已经没法用了。</p>
+<ul>
+<li>当你需要编码URL中的参数的时候，那么encodeURIComponent是最好方法。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> param = <span class="string">"http://www.cnblogs.com/season-huang/"</span>; <span class="comment">//param为参数</span></div><div class="line">param = <span class="built_in">encodeURIComponent</span>(param);</div><div class="line"><span class="keyword">var</span> url = <span class="string">"http://www.cnblogs.com?next="</span> + param;</div><div class="line"><span class="built_in">console</span>.log(url) <span class="comment">//"http://www.cnblogs.com?next=http%3A%2F%2Fwww.cnblogs.com%2Fseason-huang%2F"</span></div></pre></td></tr></table></figure>
+<p>看到了吧，参数中的 <code>&quot;/&quot;</code> 可以编码，如果用encodeURI肯定要出问题，因为后面的 <code>&quot;/&quot;</code> 是需要编码的。</p>
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/05/24/escape-encodeURI-encodeURIComponent/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/05/22/hello-world/" class="archive-article-date">
-  	<time datetime="2017-05-22T10:27:37.378Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-22</time>
-</a>
-        </div>
-    	 
+<nav id="article-nav">
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/05/22/hello-world/">Hello World</a>
-    </h1>
+  
+    <a href="/2017/05/22/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Hello World</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+  
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
 
 
           </div>
@@ -241,8 +327,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

@@ -151,6 +151,73 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-escape-encodeURI-encodeURIComponent" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/05/24/escape-encodeURI-encodeURIComponent/">escape, encodeURI 与 encodeURIComponent</a>
+    </h1>
+  
+
+        
+        <a href="/2017/05/24/escape-encodeURI-encodeURIComponent/" class="archive-article-date">
+  	<time datetime="2017-05-24T11:23:45.877Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-24</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>如果你要操作 URL，你就忘掉 escape 吧，这是个不相关的函数。接下来 encodeURI 和 encodeURIComponent 两个名字已经说得很清楚了。encodeURI 是用来处理整个 URL 的，它应该接受 URL 的 protocol, host, port 等部分，只对 path 和 query 进行编码；而 encodeURIComponent 是用来编码你准备用作 query 部分的字符串的。</p>
+</blockquote>
+<h3 id="escape和它们不是同一类"><a href="#escape和它们不是同一类" class="headerlink" title="escape和它们不是同一类"></a>escape和它们不是同一类</h3><p>简单来说，escape是对字符串 (string) 进行编码，作用是让它们在所有电脑上可读，<strong>不会</strong>编码 <code>ASCII字母 数字 @ * / +</code>。<br>而另外两种是对URL进行编码，编码之后的效果是 <code>%XX</code> 或者 <code>%uXXXX</code> 这种形式。<br>最关键的是，当你需要对URL编码时，请忘记这个方法，这个方法是针对字符串使用的，不适用于URL。</p>
+<h3 id="最常用的encodeURI和encodeURIComponent"><a href="#最常用的encodeURI和encodeURIComponent" class="headerlink" title="最常用的encodeURI和encodeURIComponent"></a>最常用的encodeURI和encodeURIComponent</h3><p>对URL编码是常见的事，所以这两个方法应该是实际中要特别注意的。<br>它们都是编码URL，唯一区别就是编码的字符范围，其中：</p>
+<ul>
+<li>encodeURI方法<strong>不会</strong>对下列字符编码 <code>ASCII字母 数字 ~ ! @ # $ &amp; * ( ) = : / , ; ? + &#39;</code></li>
+<li>encodeURIComponent方法<strong>不会</strong>对下列字符编码 <code>ASCII字母 数字 ~ ! * ( ) &#39;</code></li>
+</ul>
+<p>所以encodeURIComponent比encodeURI编码的范围更大。<br>实际例子来说，encodeURIComponent会把 <code>http://</code> 编码成 <code>http%3A%2F%2F</code>，而encodeURI却不会。</p>
+<h3 id="最重要的，什么场合应该用什么方法"><a href="#最重要的，什么场合应该用什么方法" class="headerlink" title="最重要的，什么场合应该用什么方法"></a>最重要的，什么场合应该用什么方法</h3><ul>
+<li>如果只是编码字符串，不和URL有半毛钱关系，那么用escape。</li>
+<li>如果你需要编码整个URL，然后需要使用这个URL，那么用encodeURI。</li>
+</ul>
+<p>比如 <code>encodeURI(&quot;http://www.cnblogs.com/season-huang/some other thing&quot;);</code><br>编码后会变为 <code>&quot;http://www.cnblogs.com/season-huang/some%20other%20thing&quot;;</code><br>其中，空格被编码成了<code>%20</code>，但是如果用了encodeURIComponent，那么结果变为：<br><code>&quot;http%3A%2F%2Fwww.cnblogs.com%2Fseason-huang%2Fsome%20other%20thing&quot;</code><br>看到区别了吗，连 “/“ 都被编码了，整个URL已经没法用了。</p>
+<ul>
+<li>当你需要编码URL中的参数的时候，那么encodeURIComponent是最好方法。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> param = <span class="string">"http://www.cnblogs.com/season-huang/"</span>; <span class="comment">//param为参数</span></div><div class="line">param = <span class="built_in">encodeURIComponent</span>(param);</div><div class="line"><span class="keyword">var</span> url = <span class="string">"http://www.cnblogs.com?next="</span> + param;</div><div class="line"><span class="built_in">console</span>.log(url) <span class="comment">//"http://www.cnblogs.com?next=http%3A%2F%2Fwww.cnblogs.com%2Fseason-huang%2F"</span></div></pre></td></tr></table></figure>
+<p>看到了吧，参数中的 <code>&quot;/&quot;</code> 可以编码，如果用encodeURI肯定要出问题，因为后面的 <code>&quot;/&quot;</code> 是需要编码的。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/05/24/escape-encodeURI-encodeURIComponent/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+  
     <article id="post-hello-world" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -158,13 +225,13 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/05/16/hello-world/">Hello World</a>
+      <a class="article-title" href="/2017/05/22/hello-world/">Hello World</a>
     </h1>
   
 
         
-        <a href="/2017/05/16/hello-world/" class="archive-article-date">
-  	<time datetime="2017-05-16T03:11:36.059Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-16</time>
+        <a href="/2017/05/22/hello-world/" class="archive-article-date">
+  	<time datetime="2017-05-22T10:27:37.378Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-22</time>
 </a>
         
       </header>
@@ -192,7 +259,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2017/05/16/hello-world/">展开全文 >></a>
+          <a class="article-more-a" href="/2017/05/22/hello-world/">展开全文 >></a>
         </p>
       
 

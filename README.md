@@ -1,2 +1,2 @@
 # JarvisYuan.github.io
-My Blog
+My personal blog
